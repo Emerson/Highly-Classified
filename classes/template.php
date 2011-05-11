@@ -1,5 +1,5 @@
 <?php
-class HC_Template {
+class HCP_Template {
     
     var $view = '';
     var $data = array();
