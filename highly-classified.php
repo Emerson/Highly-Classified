@@ -65,12 +65,16 @@ class HCP_Plugin {
 		if($router->controller && $router->action) {
 			$this->controller = $router->controller;
 			$this->action = $router->action;
-			require(dirname(__FILE__).'/controllers/'.$this->controller.'.php');
+			require_once(dirname(__FILE__).'/controllers/'.$this->controller.'.php');
 			$controller_name = "HCP_".ucfirst($this->controller);
 			$action_name = $this->action;
 			$controller = new $controller_name;
 			$controller->$action_name();
 		}
+	}
+	
+	function hcp_template() {
+		return dirname(__FILE__).'/views/'.$this->controller.'/'.$this->action.'.php';
 	}
 	
 	
@@ -89,7 +93,7 @@ add_action('plugins_loaded', array(&$HCP_Plugin, 'hcp_version_check'));
 // add_action('parse_request', array(&$HCP_Plugin, 'hcp_router')); // too early
 add_action('pre_get_posts', array(&$HCP_Plugin, 'hcp_router'));
 
-
+add_filter( '404_template', array(&$HCP_Plugin, 'hcp_template'));
 
 // Load our admin files if needed
 // if(is_admin()) {

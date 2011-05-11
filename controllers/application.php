@@ -8,8 +8,8 @@ class HCP_Application {
 		function __construct() {
 			global $wpdb;
 			global $wp_query;
-			$this->wpdb = $wpdb;
-			$this->wp_query = $wp_query;
+			$this->wpdb = &$wpdb;
+			$this->wp_query = &$wp_query;
 			$this->template = new HCP_Template();
 		}
 
@@ -18,6 +18,9 @@ class HCP_Application {
 		}
 		
 		function view() {
+			// print_r($this->wp_query->query_vars);
+			$this->wp_query->current_post = 1;
+			$this->wp_query->is_single = true;
 			$this->template->render('application/view');
 		}
 		
